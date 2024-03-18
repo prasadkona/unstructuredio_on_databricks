@@ -31,18 +31,18 @@
 
 # DBTITLE 1,Initialize Variables
 # initialize variables
-DROPBOX_TOKEN = dbutils.secrets.get("prasad_kona", "DROPBOX_API_TOKEN")
-UNSTRUCTURED_API_KEY = dbutils.secrets.get("prasad_kona", "UNSTRUCTURED_API_KEY")
+DROPBOX_TOKEN = dbutils.secrets.get("databricks_secret_scope_name", "DROPBOX_API_TOKEN")
+UNSTRUCTURED_API_KEY = dbutils.secrets.get("databricks_secret_scope_name", "UNSTRUCTURED_API_KEY")
 
 # url for the databricks workspace
 databricks_host = "https://" + spark.conf.get("spark.databricks.workspaceUrl")
 
-DATABRICKS_TOKEN = dbutils.secrets.get("prasad_kona", "databricks_user_token")
-DATABRICKS_HOSTNAME = dbutils.secrets.get("prasad_kona", "databricks_hostname")
-DATABRICKS_USERNAME = dbutils.secrets.get("prasad_kona", "databricks_user_name")
+DATABRICKS_TOKEN = dbutils.secrets.get("databricks_secret_scope_name", "databricks_user_token")
+DATABRICKS_HOSTNAME = dbutils.secrets.get("databricks_secret_scope_name", "databricks_hostname")
+DATABRICKS_USERNAME = dbutils.secrets.get("databricks_secret_scope_name", "databricks_user_name")
 
-catalog_name ="prasad_kona_dev"
-schema_name = "unstructured_io_demo"
+catalog_name ="demo_catalog"
+schema_name = "unstructured_io_demo_schema"
 volume_name = "unstructured_io_demo_volume"
 
 output_dir_name = f"/Users/{DATABRICKS_USERNAME}/dropbox-output"
@@ -145,7 +145,7 @@ dbutils.fs.ls( processed_output_volume_full_path+"/databricks-pdf")
 
 # MAGIC %sql
 # MAGIC -- Query the data
-# MAGIC select * from json.`/Volumes/prasad_kona_dev/unstructured_io_demo/unstructured_io_demo_volume/unstructured_io/structured-output/databricks-pdf/transform-scale-your-organization-with-data-ai-v16-052522.pdf.json`
+# MAGIC select * from json.`/Volumes/demo_catalog/unstructured_io_demo_schema/unstructured_io_demo_volume/unstructured_io/structured-output/databricks-pdf/transform-scale-your-organization-with-data-ai-v16-052522.pdf.json`
 
 # COMMAND ----------
 
@@ -247,14 +247,14 @@ dbutils.fs.ls( processed_output_volume_full_path+"/databricks-pdf")
 
 # MAGIC %sql
 # MAGIC -- Query the data
-# MAGIC select * from json.`/Volumes/prasad_kona_dev/unstructured_io_demo/unstructured_io_demo_volume/unstructured_io_api/structured-output/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json`
+# MAGIC select * from json.`/Volumes/demo_catalog/unstructured_io_demo_schema/unstructured_io_demo_volume/unstructured_io_api/structured-output/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json`
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC CREATE TEMPORARY VIEW unstructured_data_temp
 # MAGIC USING json
-# MAGIC OPTIONS (path="/Volumes/prasad_kona_dev/unstructured_io_demo/unstructured_io_demo_volume/unstructured_io_api/structured-output/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json",multiline=true)
+# MAGIC OPTIONS (path="/Volumes/demo_catalog/unstructured_io_demo_schema/unstructured_io_demo_volume/unstructured_io_api/structured-output/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json",multiline=true)
 
 # COMMAND ----------
 
@@ -320,7 +320,7 @@ if __name__ == "__main__":
             num_processes=2,
         ),
         connector_config=SimpleLocalConfig(
-            input_path= "/Volumes/prasad_kona_dev/unstructured_io_demo/unstructured_io_demo_volume/unstructured_io_api/raw/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf", 
+            input_path= "/Volumes/prasad_kona_dev/unstructured_io_demo_schema/unstructured_io_demo_volume/unstructured_io_api/raw/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf", 
         ),
         read_config=ReadConfig(),
         partition_config=PartitionConfig(),
@@ -337,7 +337,7 @@ if __name__ == "__main__":
 
 # MAGIC %sql
 # MAGIC -- Query the data
-# MAGIC select * from json.`/Volumes/prasad_kona_dev/unstructured_io_demo/unstructured_io_demo_volume/unstructured_io_api_3/local-output-to-databricks-volumes/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json`
+# MAGIC select * from json.`/Volumes/demo_catalog/unstructured_io_demo_schema/unstructured_io_demo_volume/unstructured_io_api_3/local-output-to-databricks-volumes/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json`
 
 # COMMAND ----------
 
@@ -399,7 +399,7 @@ if __name__ == "__main__":
             num_processes=2,
         ),
         connector_config=SimpleLocalConfig(
-            input_path= "/Volumes/prasad_kona_dev/unstructured_io_demo/unstructured_io_demo_volume/unstructured_io_api/raw/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf", 
+            input_path= "/Volumes/prasad_kona_dev/unstructured_io_demo_schema/unstructured_io_demo_volume/unstructured_io_api/raw/databricks-pdf/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf", 
         ),
         read_config=ReadConfig(),
         partition_config=PartitionConfig(
@@ -418,7 +418,7 @@ if __name__ == "__main__":
 
 # MAGIC %sql
 # MAGIC -- Query the data
-# MAGIC select * from json.`/Volumes/prasad_kona_dev/unstructured_io_demo/unstructured_io_demo_volume/unstructured_io_api_4/local-output-to-databricks-volumes/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json`
+# MAGIC select * from json.`/Volumes/demo_catalog/unstructured_io_demo_schema/unstructured_io_demo_volume/unstructured_io_api_4/local-output-to-databricks-volumes/030521-2-The-Delta-Lake-Series-Complete-Collection.pdf.json`
 
 # COMMAND ----------
 
