@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %pip  install "unstructured[dropbox]" httpx "unstructured[pdf]"  "unstructured[databricks-volumes]"
+# MAGIC %pip  install httpx "unstructured[dropbox]"==0.12.6 "unstructured[pdf]"==0.12.6  "unstructured[databricks-volumes]"==0.12.6
 # MAGIC
 # MAGIC dbutils.library.restartPython()
 
