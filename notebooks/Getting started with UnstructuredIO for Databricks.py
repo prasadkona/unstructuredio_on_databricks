@@ -33,6 +33,7 @@
 # initialize variables
 DROPBOX_TOKEN = dbutils.secrets.get("databricks_secret_scope_name", "DROPBOX_API_TOKEN")
 UNSTRUCTURED_API_KEY = dbutils.secrets.get("databricks_secret_scope_name", "UNSTRUCTURED_API_KEY")
+UNSTRUCTURED_SAAS_BASE_URL = dbutils.secrets.get("prasad_kona", "UNSTRUCTURED_SAAS_BASE_URL")
 
 # url for the databricks workspace
 databricks_host = "https://" + spark.conf.get("spark.databricks.workspaceUrl")
@@ -157,6 +158,10 @@ processed_output_volume_full_path = f"/Volumes/{catalog_name}/{schema_name}/{pro
 
 # COMMAND ----------
 
+# MAGIC %pip install unstructured-client==0.21.1
+
+# COMMAND ----------
+
 # DBTITLE 1,2. Using UnstructuredIO saas api to process files obtained using the source connector "Dropbox"
 import os
 
@@ -218,7 +223,9 @@ if __name__ == "__main__":
         ),
         partition_config=PartitionConfig(
             partition_by_api=True,
-            api_key=UNSTRUCTURED_API_KEY             
+            api_key=UNSTRUCTURED_API_KEY ,
+            partition_endpoint= UNSTRUCTURED_SAAS_BASE_URL
+            
         ),
         connector_config=SimpleDropboxConfig(
             access_config=DropboxAccessConfig(
@@ -266,7 +273,7 @@ processed_output_volume_full_path = f"/Volumes/{catalog_name}/{schema_name}/{pro
 
 # COMMAND ----------
 
-# MAGIC %pip install "unstructured[embed-huggingface]"
+# MAGIC %pip install "unstructured[embed-huggingface]"==0.12.6
 
 # COMMAND ----------
 
@@ -404,7 +411,9 @@ if __name__ == "__main__":
         read_config=ReadConfig(),
         partition_config=PartitionConfig(
             partition_by_api=True,
-            api_key=UNSTRUCTURED_API_KEY             
+            api_key=UNSTRUCTURED_API_KEY ,
+            partition_endpoint= UNSTRUCTURED_SAAS_BASE_URL
+            
         ),        chunking_config=ChunkingConfig(chunk_elements=True),
         embedding_config=EmbeddingConfig(
             provider="langchain-huggingface",
